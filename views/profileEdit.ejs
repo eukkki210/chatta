@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title>프로필 수정</title>
+</head>
+<body>
+    <h1> <%= user.nickname %> 님 프로필 수정 </h1>
+
+    <!-- 비밀번호 변경은 다른페이지로 분리 -->
+    <a href="/profile/edit/pw">비밀번호 변경</a>
+
+    <form name="edit-profile">
+        <input type="hidden" id="id" value="<%= user.user_id %>">
+        프로필사진 : <img src="" alt="프로필사진"><br />
+
+        이름 : <input type="text" id="userName" value="<%= user.user_name %>" readonly />   
+        성별 : <input type="text" id="gender" value="<%= user.gender %>"> <br />
+        
+        아이디 : <input type="text" id="loginId" value="<%= user.login_id %>" readonly />
+        닉네임 : <input type="text" id="nickName" value="<%= user.nickname %>">
+        <!-- 생년월일 : <input type="text" id="birth" value=""> -->
+        <br />
+
+        선호 카테고리 : <input type="text" id="categoryA">
+        비선호 카테고리 : <input type="text" id="categoryB"><br />
+        <!-- 비밀번호 : <input type="password" id="loginPw" value="<%= user.login_pw %>" > <br /> -->
+        
+        <!-- 저장 버튼 -->
+        <button type="button" onclick="edit()">저장하기</button>
+    </form>
+
+    <script>
+        // 저장 버튼 함수 (POST)
+        function edit() {
+            const form = document.forms['edit-profile']
+            const data = {
+                id: form.id.value,
+                nick: form.nickName.value,
+            }
+
+            if(!confirm('저장할까요?')) {
+                return;
+            }
+            axios({
+                method: 'POST',
+                url : '/profile/edit',
+                data,
+            }).then((res)=> {
+                if(res.data.result) {
+                    document.location.reload();
+                }
+            })
+        }
+
+    </script>
+</body>
+</html>
