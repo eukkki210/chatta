@@ -8,26 +8,54 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>회원가입</h1>
-    <form name="signup-form">
-        <input type="text" name="name" placeholder="이름"/><br/>
-        <input type="text" name="userid" placeholder="아이디"><br/>
-        <input type="password" name="pw" placeholder="비밀번호"><br/>
-        <button type="button" onclick="userSignUp()">회원가입</button>
-    </form>
-    <br/>
-    <h1>로그인</h1>
-    <form name="signin-form">
-        <input type="text" name="userid" placeholder="아이디"><br/>
-        <input type="password" name="pw" placeholder="비밀번호"><br/>
-        <button type="button" onclick="userSignin()">로그인</button>
-    </form>
-    <br/>
+    <button id="sign_up_button" onclick="signUpVisible()"> 회원가입 </button>
+    <button id="sign_in_button" onclick="signInVisible()"> 로그인 </button>
     <button type="button" onclick="userLogOut()">로그아웃</button>
+    <div id="sign_up_div" hidden>
+        <div>회원가입</div>
+        <form name="signup-form">
+            <input type="text" name="name" placeholder="이름"/><br/>
+            <input type="text" name="userid" placeholder="아이디"><br/>
+            <input type="password" name="pw" placeholder="비밀번호"><br/>
+            <button type="button" onclick="userSignUp()">회원가입</button>
+        </form>
+    </div>
+    <br/>
+    <div id="sign_in_div" hidden>
+        <div>로그인</div>
+        <form name="signin-form">
+            <input type="text" name="userid" placeholder="아이디"><br/>
+            <input type="password" name="pw" placeholder="비밀번호"><br/>
+            <button type="button" onclick="userSignin()">로그인</button>
+        </form>
+    </div>
     <br/>
     <a href="/new">게시글 작성</a>
 </body>
 <script>
+    function signUpVisible(){
+        const sign_up_div = document.getElementById('sign_up_div');
+        if(sign_up_div.hidden){
+            sign_up_div.hidden = false;
+        } else{
+            sign_up_div.hidden = true;
+        }
+    }
+    function signInVisible(){
+        const sign_in_div = document.getElementById('sign_in_div');
+        if(sign_in_div.hidden){
+            sign_in_div.hidden = false;
+        } else{
+            sign_in_div.hidden = true;
+        }
+    }
+    // const isLogin = Boolean('<%= isLogin %>');
+    // if (isLogin){
+    //     const sign_up_div = document.querySelector('.sign_up_div');
+    //     const sign_in_div = document.querySelector('.sign_in_div');
+    //     sign_up_div.hidden = true;
+    //     sign_in_div.hidden = false;
+    // }
     async function userSignUp(){
         const signUpForm = document.forms["signup-form"];
         try {

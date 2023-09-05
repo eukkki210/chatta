@@ -11,12 +11,21 @@ const {
 
 const main = (req,res)=>{
     console.log("cookie",req.signedCookies.logined);
-    res.render('index');
+    if (req.signedCookies.logined){
+        const data = {
+            isLogin:true,
+        }
+        res.render('index',data);
+    }
 }
 
 
 const newMain = (req,res)=>{
     res.render('new');
+}
+
+const chatMain = (req,res)=>{
+    res.render('chat');
 }
 
 
@@ -152,6 +161,7 @@ const connection = (io,socket,loc)=>{
 module.exports = {
     main,
     newMain,
+    chatMain,
     connection,
     boardPost,
     bookmarkPost,

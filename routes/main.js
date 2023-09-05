@@ -7,6 +7,7 @@ const cprofile = require('../controller/Cprofile.js');
 router.get('/', controller.main);
 router.get('/profile', cprofile.profile);
 router.get('/new', controller.newMain);
+router.get('/chat',controller.chatMain);
 
 router.get('/new/:userid',controller.newMain);
 

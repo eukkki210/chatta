@@ -2,16 +2,19 @@ const {User} = require('../models');
 const bcrypt = require('bcrypt');
 
 const dbIdCheck = async (login_id) => {
-    const result = await User.findAll({where:{login_id}})
-    if(result.length > 0){
+    const result = await User.findAll({attributes: ["login_id"],where:{login_id}})
+    if(result.length>1){
+        console.log('database error 아이디 중복');
         return false;
-    } else {
+    } else if(result.length == 1){
         return true;
+    } else {
+        return false;
     }
 }
 
 const dbIdSearch = async (login_id) =>{
-    const user = await User.findAll({where:{login_id}})
+    const user = await User.findOne({attributes: ["user_id","nickname"] , where:{login_id} , raw:true})
     return user
 }
 
@@ -20,8 +23,10 @@ const pwHashing = async (pw) => {
     return hash;
 }
 
-const dbpwCompare = async (pw,dbpw) => {
-    const flag = await bcrypt.compare(pw,dbpw);
+const dbpwCompare = async (login_id,login_pw) => {
+    const result = await User.findOne({attributes: ["login_pw"],where:{login_id},raw:true})
+    const dbpw = result.login_pw;
+    const flag = await bcrypt.compare(login_pw,dbpw);
     return flag
 }
 
