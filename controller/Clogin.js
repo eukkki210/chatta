@@ -5,7 +5,7 @@ const Cauth = require('./Cauth');
 
 
 const signUp = async (req,res)=>{
-    const {login_id,login_pw,user_name}=req.body
+    const {login_id,login_pw,user_name,gender,birth}=req.body
     try {
         const flag = await Cauth.dbIdCheck(login_id)
         if(flag){
@@ -13,19 +13,23 @@ const signUp = async (req,res)=>{
             return;
         }
         const hash = await Cauth.pwHashing(login_pw);
+
         const uuid=v4();
+        const birthDate = new Date(birth);
         // console.log('uuid',uuid)
         // const uuidString = await Cauth.uuidToString(uuid)
         // console.log('uuid string',uuidString);
         // const newUuid = await Cauth.stringToUuid(uuidString);
         // console.log('uuid new', newUuid);
         const user = await User.create({
-            user_id:uuid,
+            user_id: uuid,
             login_id,
-            login_pw:hash,
+            login_pw: hash,
             user_name,
-            nickname:login_id,
-        })
+            nickname: login_id,
+            gender,
+            birth: birthDate,
+        });
         res.json({result:true,message:`${login_id}님이 회원가입 하셨습니다`,uuid});
     } catch (error) {
         console.log(error);

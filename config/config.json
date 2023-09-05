@@ -7,9 +7,9 @@
     "dialect": "mysql"
   },
   "test": {
-    "username": "eukkki",
-    "password": "Inter!0719",
-    "database": "kdt9",
+    "username": "root",
+    "password": "159753",
+    "database": "moving",
     "host": "127.0.0.1",
     "dialect": "mysql"
   },

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +8,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <title>Document</title>
 </head>
+
 <body>
     <button id="sign_up_button" onclick="signUpVisible()"> 회원가입 </button>
     <button id="sign_in_button" onclick="signInVisible()"> 로그인 </button>
@@ -17,6 +19,19 @@
             <input type="text" name="name" placeholder="이름"/><br/>
             <input type="text" name="userid" placeholder="아이디"><br/>
             <input type="password" name="pw" placeholder="비밀번호"><br/>
+            <label for="gender">성별:</label>
+            <select name="gender" id="gender">
+                <option value="남성">남성</option>
+                <option value="여성">여성</option>
+                <option value="기타">기타</option>
+            </select><br />
+            <label for="birth">생년월일:</label>
+            <select name="year" id="birth-year">
+            </select>
+            <select name="month" id="birth-month">
+            </select>
+            <select name="day" id="birth-day">
+            </select><br />
             <button type="button" onclick="userSignUp()">회원가입</button>
         </form>
     </div>
@@ -60,54 +75,57 @@
         const signUpForm = document.forms["signup-form"];
         try {
             const data = {
-                user_name:signUpForm.name.value,
-                login_id:signUpForm.userid.value,
-                login_pw:signUpForm.pw.value,
-            }
+                user_name: signUpForm.name.value,
+                login_id: signUpForm.userid.value,
+                login_pw: signUpForm.pw.value,
+                gender: signUpForm.gender.value,
+                birth: `${signUpForm.year.value}-${signUpForm.month.value}-${signUpForm.day.value}`,
+            };
             const res = await axios({
-                method:"post",
-                url:"/signup",
+                method: "post",
+                url: "/signup",
                 data,
-            })
-            if (!res.data.result){
-                alert(res.data.message)
+            });
+            if (!res.data.result) {
+                alert(res.data.message);
                 return;
-            } else{
-                alert(res.data.message)
+            } else {
+                alert(res.data.message);
             }
         } catch (error) {
             console.log(error);
         }
     }
 
-    async function userSignin(){
+
+    async function userSignin() {
         const signInForm = document.forms["signin-form"];
         try {
             const data = {
-                login_id:signInForm.userid.value,
-                login_pw:signInForm.pw.value,
+                login_id: signInForm.userid.value,
+                login_pw: signInForm.pw.value,
             }
             const res = await axios({
-                method:"post",
-                url:"/signin",
+                method: "post",
+                url: "/signin",
                 data,
             })
-            if (!res.data.result){
+            if (!res.data.result) {
                 alert(res.data.message);
                 return;
-            } else{
+            } else {
                 alert(res.data.message)
             }
         } catch (error) {
             console.log(error);
         }
     }
-    async function userLogOut(){
+    async function userLogOut() {
         const res = await axios({
-            method:"post",
-            url:"/logout",
+            method: "post",
+            url: "/logout",
         })
-        console.log("res",res)
+        console.log("res", res)
     }
 </script>
 <script>
@@ -115,8 +133,9 @@
     const socket2 = io();
     // 네임 스페이스 '/'의 경우에는 생략가능 (링크 개념이라)
     // 이렇게 소켓을 여러개 가져와 쓸 수도 있는 것 같다
-    console.log("socket1",socket1);
-    console.log("socket2",socket2);
+    console.log("socket1", socket1);
+    console.log("socket2", socket2);
     socket1.emit('userLog')
 </script>
+
 </html>
